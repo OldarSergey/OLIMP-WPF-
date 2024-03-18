@@ -62,7 +62,7 @@ namespace OLIMP.Views
             }
             if (user.Role.Name == "Менеджер")
             {
-                var managerwindow = new ManagerWindow();
+                var managerwindow = new ManagerWindow(user);
                 managerwindow.Show();
                 Close();
             }

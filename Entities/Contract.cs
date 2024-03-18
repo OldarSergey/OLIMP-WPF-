@@ -6,6 +6,7 @@ namespace OLIMP.Entities
 {
     public class Contract
     {
+
         public Guid Id { get; set; }
 
         public DateTime Date { get; set; }
@@ -51,5 +52,7 @@ namespace OLIMP.Entities
             ClientId = clientId;
             UserId = userId;
         }
+
+        
     }
 }

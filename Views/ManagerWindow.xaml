@@ -138,5 +138,107 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <!--Возврат инвенторя-->
+        <TabItem>
+            <TabItem.Header>Возврат инвенторя</TabItem.Header>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListView
+            Grid.Column="0"
+            Grid.Row="1"
+            ItemsSource="{Binding Contracts}"
+            SelectedItem="{Binding SelectedClient}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn
+                                Width="100"
+                        Header="Фамилия"
+                        DisplayMemberBinding="{Binding Client.FistName}"/>
+                            <GridViewColumn
+                                Width="100"
+                        Header="Дата выдачи"
+                        DisplayMemberBinding="{Binding IssueDate}"/>
+                            <GridViewColumn
+                                Width="100"
+                        Header="Дата возврата"
+                        DisplayMemberBinding="{Binding PlannedDateReturn}"/>
+                            <GridViewColumn
+                                Width="100"
+                        Header="Сумма залога"
+                        DisplayMemberBinding="{Binding Deposit}"/>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel
+            Orientation="Vertical"
+            Grid.Column="1"
+            Grid.Row="1">
+                    <TextBlock 
+                Text="Изменение договора"
+                Margin="10"/>
+                    
+                    <TextBlock
+                        Text="Дата возврата"
+                        Margin="8"/>
+                    <DatePicker
+                        SelectedDate="{Binding ActualReturnDate}"
+                        Margin="7, -3"/>    
+                    <TextBlock
+                Text="Сумма штрафа"
+                Margin="8"/>
+                    <TextBox
+                Text="{Binding Penalty}"
+                Margin="7, -3"/>
+                    <Button
+                        Margin="8"
+                        Content="Рассчитать возвращаемый залог"
+                        Command="{Binding ReturtDeposit}">
+                        
+                    </Button>
+                    <TextBlock
+                 Text="Сумма возвращаемого залога"
+                 Margin="8"/>
+                    <TextBox
+                Text="{Binding ReturnDeposit}"
+                 Margin="7, -3"/>
+
+                    <Button
+                
+                Width="100"
+                Margin="30"
+                Command="{Binding CreateClient}">
+                        ОК
+                    </Button>
+                </StackPanel>
+                <StackPanel
+            Orientation="Horizontal"
+            Grid.Column="0"
+            Grid.Row="0">
+                    <TextBox Width="200"
+                     Height="20"
+                     Margin="8"
+                     Text="{Binding SearchContract, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Поиск"
+                    Width="80"
+                    Height="20"
+                    Command="{Binding SearchContractId}"
+                    CommandParameter="{Binding SearchContract}"
+                    />
+                </StackPanel>
+     
+                    
+              
+            </Grid>
+        </TabItem>
     </TabControl>
 </Window>

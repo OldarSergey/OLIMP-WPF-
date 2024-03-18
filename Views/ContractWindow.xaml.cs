@@ -17,11 +17,11 @@ namespace OLIMP.Views
     public partial class ContractWindow : Window
     {
         private ContractViewModel _viewModel;
-        public ContractWindow(Client selectedClient)
+        public ContractWindow(Client selectedClient, User user)
         {
             InitializeComponent();
 
-            _viewModel = new ContractViewModel(selectedClient);
+            _viewModel = new ContractViewModel(selectedClient, user);
 
             this.DataContext = _viewModel;
         }

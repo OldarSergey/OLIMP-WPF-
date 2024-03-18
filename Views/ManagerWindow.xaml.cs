@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OLIMP.Entities;
+using OLIMP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,10 +19,12 @@ namespace OLIMP.Views
     /// </summary>
     public partial class ManagerWindow : Window
     {
-        public ManagerWindow()
+        private ManagerViewModel _viewModel; 
+        public ManagerWindow(User user)
         {
-
             InitializeComponent();
+            _viewModel = new ManagerViewModel(user);
+            this.DataContext = _viewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
