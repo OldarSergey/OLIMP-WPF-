@@ -8,7 +8,7 @@ namespace OLIMP
 {
     public class ApplicationDbContext : DbContext
     {
-        public string ConnectionString  = @"Server=localhost\SQLEXPRESS;Database=OLIMP1;Trusted_Connection=True;Encrypt=false";
+        public string ConnectionString  = @"Server=oldar;Database=OLIMP1;Trusted_Connection=True;Encrypt=false";
         public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Client { get; set; }
         public DbSet<Contract> Contract { get; set; }

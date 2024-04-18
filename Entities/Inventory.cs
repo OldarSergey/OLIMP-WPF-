@@ -39,5 +39,38 @@ namespace OLIMP.Entities
             LevelId = levelId;
             CategoryId = categoryId;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Inventory inventory &&
+                   Id.Equals(inventory.Id) &&
+                   Name == inventory.Name &&
+                   Gender == inventory.Gender &&
+                   Size == inventory.Size &&
+                   Hard == inventory.Hard &&
+                   Cost == inventory.Cost &&
+                   EqualityComparer<List<Contract>>.Default.Equals(Contracts, inventory.Contracts) &&
+                   LevelId.Equals(inventory.LevelId) &&
+                   CategoryId.Equals(inventory.CategoryId) &&
+                   EqualityComparer<Level>.Default.Equals(Level, inventory.Level) &&
+                   EqualityComparer<Category>.Default.Equals(Category, inventory.Category);
+        }
+
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add(Id);
+            hash.Add(Name);
+            hash.Add(Gender);
+            hash.Add(Size);
+            hash.Add(Hard);
+            hash.Add(Cost);
+            hash.Add(Contracts);
+            hash.Add(LevelId);
+            hash.Add(CategoryId);
+            hash.Add(Level);
+            hash.Add(Category);
+            return hash.ToHashCode();
+        }
     }
 }

@@ -15,14 +15,14 @@ namespace OLIMP.ViewModels
 {
     public class ManagerViewModel : ReactiveObject
     {
-		private ObservableCollection<Client> _client;
+		private ObservableCollection<Client> _allClients;
         private string _firstNamel;
         private string _lastName;
         private string _middleName;
         private string _passportSeries;
         private string _passportNumber;
         private string _passportAddress;
-        private string _searchClien;
+        private string _searchClientValue;
         private User _user;
         private Client _selectedClient;
         private Guid _searchContract;
@@ -31,14 +31,25 @@ namespace OLIMP.ViewModels
         private decimal _penalty;
         private decimal _returnDeposit;
 
-        public ObservableCollection<Client> Clients { get => _client; set => this.RaiseAndSetIfChanged(ref _client, value); }
+        public ObservableCollection<Client> AllClients { get => _allClients; set => this.RaiseAndSetIfChanged(ref _allClients, value); }
         public string FirstName { get => _firstNamel; set=> this.RaiseAndSetIfChanged(ref _firstNamel, value); }
         public string LastName { get => _lastName; set => this.RaiseAndSetIfChanged(ref _lastName, value); }
         public string MiddleName { get => _middleName; set => this.RaiseAndSetIfChanged(ref _middleName, value); }
         public string PassportSeries { get => _passportSeries; set => this.RaiseAndSetIfChanged(ref _passportSeries, value); }
         public string PassportNumber { get => _passportNumber; set => this.RaiseAndSetIfChanged(ref _passportNumber, value); }
         public string PassportAddress { get => _passportAddress; set => this.RaiseAndSetIfChanged(ref _passportAddress, value); }
-        public string SearchClient { get => _searchClien; set => this.RaiseAndSetIfChanged(ref _searchClien, value); }
+        public string SearchClientValue 
+        { 
+            get 
+            { 
+                return _searchClientValue; 
+            } 
+            set  
+            { 
+                this.RaiseAndSetIfChanged(ref _searchClientValue, value); 
+                UpdateList(); 
+            } 
+        }
         public Client SelectedClient { get => _selectedClient; set => this.RaiseAndSetIfChanged(ref _selectedClient, value); }
         public User User { get => _user; set => this.RaiseAndSetIfChanged(ref _user, value); }
         public Guid SearchContract { get => _searchContract; set=> this.RaiseAndSetIfChanged(ref _searchContract, value); }
@@ -55,12 +66,26 @@ namespace OLIMP.ViewModels
         {
             List<Client> clients;
             User = user;
-            using(ApplicationDbContext contex = new ApplicationDbContext())
+            using(ApplicationDbContext context = new ApplicationDbContext())
             {
-                clients = contex.Client.ToList();
+                DateTime dt1 = new DateTime(2024, 03, 14);
+                DateTime dt2 = new DateTime(2024, 03, 25);
+                var a = context.Contract
+                    .Where(x => (x.Date > dt1) && (x.Date < dt2))
+                    .GroupBy(x => x.ClientId)
+                    .Select(x => new
+                    {
+                        Client = x.Key,
+                        Count = x.Count(),
+                    })
+                    .Where(x => x.Count > 3)
+                    .Select(x => x.Client)
+                    .ToList();
+
+                var u = context.Client.Where(c => a.Contains(c.Id)).ToList();
             }
-            Clients = new ObservableCollection<Client>(clients);
-            Contracts = new ObservableCollection<Contract>();
+            //AllClients = new ObservableCollection<Client>(clients);
+            //Contracts = new ObservableCollection<Contract>();
         }
 
         public ReactiveCommand<string, Unit> Search => ReactiveCommand.Create<string>(searchText =>
@@ -70,7 +95,7 @@ namespace OLIMP.ViewModels
                 var searchResult = context.Client.Where(cl => cl.LastName.Contains(searchText)).ToList();
                 
 
-                Clients = new ObservableCollection<Client>(searchResult);
+                AllClients = new ObservableCollection<Client>(searchResult);
             }
         });
 
@@ -95,7 +120,7 @@ namespace OLIMP.ViewModels
             }
         });
 
-        public ReactiveCommand<Object, Unit> ReturtDeposit => ReactiveCommand.Create<Object>(e =>
+        public ReactiveCommand<Object, Unit> ReturnDepositCommand => ReactiveCommand.Create<Object>(e =>
         {
             foreach(var item in Contracts)
             {
@@ -111,7 +136,7 @@ namespace OLIMP.ViewModels
             {
                 clients = contex.Client.ToList();
             }
-            Clients = new ObservableCollection<Client>(clients);
+            AllClients = new ObservableCollection<Client>(clients);
         });
 
         public ReactiveCommand<Object, Unit> CreateClient => ReactiveCommand.Create<object>(o =>
@@ -128,13 +153,32 @@ namespace OLIMP.ViewModels
                 context.Client.Add(client);
                 context.SaveChanges();
             }
-            Clients.Add(client);
+            AllClients.Add(client);
         });
 
         public ReactiveCommand<Object, Unit> SelectedClientContract => ReactiveCommand.Create<object>(sc =>
         {
-            var contractModel = new ContractWindow(SelectedClient, User);
-            contractModel.Show();
+            if(SelectedClient != null)
+            {
+                var contractModel = new ContractWindow(SelectedClient, User);
+                contractModel.Show();
+            }
         });
+
+        private void UpdateList()
+        {
+            using(ApplicationDbContext  context = new ApplicationDbContext())
+            {
+                IQueryable<Client> query = context.Client;
+
+                if (!string.IsNullOrEmpty(SearchClientValue))
+                {
+                    query = query.Where(c => c.LastName.Contains(SearchClientValue));
+                }
+
+                AllClients = new ObservableCollection<Client>(query.ToList());
+            }
+            
+        }
     }
 }

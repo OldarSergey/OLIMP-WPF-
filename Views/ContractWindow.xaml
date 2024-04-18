@@ -10,8 +10,134 @@
     <Window.DataContext>
         <vm:ContractViewModel/>
     </Window.DataContext>
+
+    <TabControl>
+        <TabItem>
+            <TabItem.Header>
+                Инвентарь
+            </TabItem.Header>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <Grid
+                    Grid.Row="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox
+                        Grid.Column="0"
+                        Margin="8"
+                        Text="{Binding SearchValue, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <ComboBox
+                        Grid.Column="1"
+                        Margin="8"
+                        ItemsSource="{Binding FilterValues}"
+                        SelectedIndex="0"
+                        SelectedItem="{Binding FilterValue, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <ComboBox
+                        Grid.Column="2"
+                        Margin="8"
+                        ItemsSource="{Binding SortValues}"
+                        SelectedIndex="0"
+                        SelectedItem="{Binding SortValue, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <ListView
+                    Grid.Row="1"
+                    ItemsSource="{Binding Inventories, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedInventory, UpdateSourceTrigger=PropertyChanged}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn
+                                Header="Наименование"
+                                DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Размер"
+                                DisplayMemberBinding="{Binding Size, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Жесткость"
+                                DisplayMemberBinding="{Binding Hard, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Стоимость"
+                                DisplayMemberBinding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Уровень подготовки"
+                                DisplayMemberBinding="{Binding Level.Name , UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Категория"
+                                DisplayMemberBinding="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Button
+                    Grid.Row="2"
+                    Margin="8"
+                    Content="Добавить к договору"
+                    Command="{Binding AddInventoryCommand}"/>
+
+            </Grid>
+        </TabItem>
+        
+        
+        
+        <TabItem>
+            <TabItem.Header>
+                Оформление
+            </TabItem.Header>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <ListView
+                    Grid.Column="0"
+                    ItemsSource="{Binding ShopInventories, UpdateSourceTrigger=PropertyChanged}">
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn
+                                Header="Наименование"
+                                DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Размер"
+                                DisplayMemberBinding="{Binding Size, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Жесткость"
+                                DisplayMemberBinding="{Binding Hard, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Стоимость"
+                                DisplayMemberBinding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Уровень подготовки"
+                                DisplayMemberBinding="{Binding Level.Name , UpdateSourceTrigger=PropertyChanged}"/>
+                            <GridViewColumn
+                                Header="Категория"
+                                DisplayMemberBinding="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+            
+
+        </TabItem>
+    </TabControl>
     
-    <Grid>
+    <!--<Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -24,40 +150,13 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
+
         <TextBlock 
             Grid.Row="0"
             Grid.Column="0"
-            Text="{Binding SelectedClientContract}"></TextBlock>
+            Text="{Binding SelectedClientContract}"/>
 
-        <ListView
-            Grid.Column="0"
-            Grid.Row="1"
-            ItemsSource="{Binding Inventories, UpdateSourceTrigger=PropertyChanged}"
-            SelectedItem="{Binding SelectedInventory, UpdateSourceTrigger=PropertyChanged}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn
-                    Header="Наименование"
-                    DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn
-                    Header="Размер"
-                    DisplayMemberBinding="{Binding Size, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn
-                    Header="Жесткость"
-                    DisplayMemberBinding="{Binding Hard, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn
-                    Header="Стоимость"
-                    DisplayMemberBinding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn
-                    Header="Уровень подготовки"
-                    DisplayMemberBinding="{Binding Level.Name , UpdateSourceTrigger=PropertyChanged}"/>
-                    <GridViewColumn
-                    Header="Категория"
-                    DisplayMemberBinding="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}"/>           
-                </GridView>
-            </ListView.View>
-        </ListView>
+        
         <Button
             Grid.Column="0"
             Grid.Row="2"
@@ -153,5 +252,5 @@
                 Command="{Binding CreateContract}"
                 Width="150"
                 Content="Оформить договор"/>
-    </Grid>
+    </Grid>-->
 </Window>

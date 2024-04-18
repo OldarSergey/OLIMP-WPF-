@@ -15,43 +15,70 @@
         <!--Клиенты-->
         <TabItem>
             <TabItem.Header>Клиенты</TabItem.Header>
-        
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="5*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-            </Grid.RowDefinitions>
-                <ListView
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    ItemsSource="{Binding Clients}"
-                    SelectedItem="{Binding SelectedClient}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn
-                                Header="Имя"
-                                DisplayMemberBinding="{Binding FistName}"/>
-                        <GridViewColumn
-                                Header="Фамилия"
-                                DisplayMemberBinding="{Binding LastName}"/>
-                        <GridViewColumn
-                                Header="Отчество"
-                                DisplayMemberBinding="{Binding MiddleName}"/>
-                        <GridViewColumn
-                                Header="Серия паспорта"
-                                DisplayMemberBinding="{Binding PassportSeria}"/>
-                        <GridViewColumn
-                                Header="номер паспорта"
-                                DisplayMemberBinding="{Binding PassportNumber}"/>
 
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Grid.Column="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            Grid.Column="0"
+                            Margin="8"
+                            Text="{Binding SearchClientValue, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <ListView
+                        Grid.Row="1"
+                        ItemsSource="{Binding AllClients}"
+                        SelectedItem="{Binding SelectedClient}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn
+                                    Header="Имя"
+                                    DisplayMemberBinding="{Binding FistName}"/>
+                                <GridViewColumn
+                                    Header="Фамилия"
+                                    DisplayMemberBinding="{Binding LastName}"/>
+                                <GridViewColumn
+                                    Header="Отчество"
+                                    DisplayMemberBinding="{Binding MiddleName}"/>
+                                <GridViewColumn
+                                    Header="Серия паспорта"
+                                    DisplayMemberBinding="{Binding PassportSeria}"/>
+                                <GridViewColumn
+                                    Header="номер паспорта"
+                                    DisplayMemberBinding="{Binding PassportNumber}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Button
+                        Grid.Row="2"
+                        Margin="8"
+                        Content="Оформить заказ"
+                        Command="{Binding SelectedClientContract}"/>
+                </Grid>
+                
+                
                 <StackPanel
                     Orientation="Vertical"
                     Grid.Column="1"
@@ -67,19 +94,19 @@
                         Margin="7, -3"/>
                     <TextBlock
                         Text="Фамилия"
-                        Margin="8"/>            
+                        Margin="8"/>
                     <TextBox
                         Text="{Binding LastName}"
                         Margin="7, -3"/>
                     <TextBlock
                         Text="Отчество"
-                        Margin="8"/>        
+                        Margin="8"/>
                     <TextBox
                         Text="{Binding MiddleName}"
                         Margin="7, -3"/>
                     <TextBlock
                         Text="Серия паспорта"
-                        Margin="8"/>            
+                        Margin="8"/>
                     <TextBox
                         Text="{Binding PassportSeries}"
                         Margin="7, -3"/>
@@ -104,43 +131,14 @@
                         Добавить
                     </Button>
                 </StackPanel>
-                <StackPanel
-                    Orientation="Horizontal"
-                    Grid.Column="0"
-                    Grid.Row="0">
-                    <TextBox Width="200"
-                             Height="20"
-                             Margin="8"
-                             Text="{Binding SearchClient, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Content="Поиск"
-                            Width="80"
-                            Height="20"
-                            Command="{Binding Search}"
-                            CommandParameter="{Binding SearchClient}"
-                            />
-                    <Button Content="Очистить"
-                             Width="80"
-                             Height="20"
-                            Margin="10"
-                            Command="{Binding GetAll}"
-                             />
-                </StackPanel>
-                <StackPanel
-                    Orientation="Horizontal"
-                    Grid.Column="0"
-                    Grid.Row="3">
-                    <Button
-                        Content="Перейти к выбору инвентаря"
-                        Height="40"
-                        Margin="8"
-                        Command="{Binding SelectedClientContract}">
-                    </Button>
-                </StackPanel>
+                
             </Grid>
         </TabItem>
-        <!--Возврат инвенторя-->
+        
+        
+        <!--Возврат инвентаря-->
         <TabItem>
-            <TabItem.Header>Возврат инвенторя</TabItem.Header>
+            <TabItem.Header>Возврат инвентаря</TabItem.Header>
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -186,13 +184,13 @@
                     <TextBlock 
                 Text="Изменение договора"
                 Margin="10"/>
-                    
+
                     <TextBlock
                         Text="Дата возврата"
                         Margin="8"/>
                     <DatePicker
                         SelectedDate="{Binding ActualReturnDate}"
-                        Margin="7, -3"/>    
+                        Margin="7, -3"/>
                     <TextBlock
                 Text="Сумма штрафа"
                 Margin="8"/>
@@ -202,8 +200,8 @@
                     <Button
                         Margin="8"
                         Content="Рассчитать возвращаемый залог"
-                        Command="{Binding ReturtDeposit}">
-                        
+                        Command="{Binding ReturnDepositCommand}">
+
                     </Button>
                     <TextBlock
                  Text="Сумма возвращаемого залога"
@@ -235,9 +233,9 @@
                     CommandParameter="{Binding SearchContract}"
                     />
                 </StackPanel>
-     
-                    
-              
+
+
+
             </Grid>
         </TabItem>
     </TabControl>
